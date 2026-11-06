@@ -1,9 +1,7 @@
 import { invite } from "../content";
-import { CallViz } from "./CallViz";
-import { LastFiveMinutes } from "./LastFiveMinutes";
 import { PlanCard } from "./PlanCard";
 
-/** Phase one: the five steps, the fake call clock, and the denial counter. */
+/** Phase one: the five steps, and the honest estimate of how long it runs. */
 export function PlanSequence() {
   const copy = invite.plan;
 
@@ -37,11 +35,14 @@ export function PlanSequence() {
         ))}
       </div>
 
-      <CallViz />
-
-      <p className="disclaimer">{copy.call.disclaimer}</p>
-
-      <LastFiveMinutes />
+      <div className="duration-card">
+        <p className="duration-label">{copy.duration.label}</p>
+        <p className="duration-value">
+          {copy.duration.value}
+          <span className="duration-caption">{copy.duration.caption}</span>
+        </p>
+        <p className="duration-note">{copy.duration.note}</p>
+      </div>
     </section>
   );
 }

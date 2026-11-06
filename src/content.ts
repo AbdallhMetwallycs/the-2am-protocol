@@ -24,6 +24,15 @@ export type Surprise = {
   message: string;
 };
 
+/** The three details the recipient gets to pick on the acceptance screen. */
+export type TermGroupId = "starting" | "dress" | "exit";
+
+export type TermGroup = {
+  id: TermGroupId;
+  label: string;
+  options: readonly string[];
+};
+
 export const invite = {
   brand: {
     name: "The 2 AM Protocol",
@@ -98,28 +107,11 @@ export const invite = {
       },
     ] satisfies PlanStep[],
 
-    call: {
-      label: "Call in progress",
-      caption: "The part where hours disappear.",
-      startSeconds: 5_003,
-      speed: 4,
-      archive: ["01:23:45", "02:47:19", "04:12:38"],
-      archiveLabel: "Previous confirmed incidents",
-      disclaimer:
-        "A playful simulation only. No call is placed, no call data is read, nothing about you is tracked.",
-    },
-
-    lastFive: {
-      label: "OK, LAST FIVE MINUTES",
-      note: "Tap it. The counter is scientific.",
-      /** Index 0 is the first tap; the last entry repeats forever. */
-      replies: [
-        "Five minutes. This time for real. 🥱",
-        "That was twelve minutes ago. Keep going. 😏",
-        "The call is supposed to end now. It absolutely will not. 😂",
-        "Five minutes, times four. New personal record. ✨",
-        "At this point the phone needs a charger and an apology. 🔌",
-      ],
+    duration: {
+      label: "Expected call duration",
+      value: "∞",
+      caption: "Give or take a sunrise.",
+      note: "I know we said it would be a five-minute call. 🤣",
     },
   },
 
@@ -210,17 +202,58 @@ export const invite = {
     cup: {
       tea: "Tea",
       coffee: "Coffee",
+      inMessage: { tea: "Tea 🍵", coffee: "Coffee ☕" },
       hint: "Tap the cup to switch sides of this argument.",
     },
     psTitle: "P.S.",
     psBody:
       "If you fall asleep first, I'm still talking. You'll hear about it tomorrow. 😂",
+    terms: {
+      eyebrow: "The rules, as agreed",
+      intro:
+        "Pick the details. They go straight into the message, so there is nothing left to negotiate. 😌",
+      activityLabel: "Activity",
+      durationLabel: "Duration",
+      durationValue: "Infinity. We said five minutes. 🤣",
+      locationLabel: "Location",
+      locationValue: "Wherever your phone and charger are.",
+      hint: "Everything above is already in the message. 💌",
+      groups: [
+        {
+          id: "starting",
+          label: "Starting",
+          options: [
+            "Whenever we say we're going to sleep",
+            "After 11, when the house goes quiet",
+            "2 AM sharp, obviously",
+          ],
+        },
+        {
+          id: "dress",
+          label: "Dress code",
+          options: [
+            "Pajamas, encouraged 😏",
+            "A hoodie that is technically mine",
+            "Something reckless",
+          ],
+        },
+        {
+          id: "exit",
+          label: "Exit strategy",
+          options: [
+            "Apparently nonexistent",
+            "One last episode, then we mean it",
+            "Sunrise, whichever comes first",
+          ],
+        },
+      ] satisfies TermGroup[],
+    },
     share: {
       label: "SEND MY ACCEPTANCE",
       emoji: "💌",
       message:
         "Officially accepting another night of tea, coffee, gossip, flirting and absolutely no sleeping. 😂☕🌙",
-      hint: "Opens WhatsApp with the message ready. Just hit send.",
+      hint: "Opens WhatsApp with tonight's rules and your picks already in the message. Just hit send.",
     },
     replay: "Back to the top of the night",
   },
@@ -240,7 +273,35 @@ export const invite = {
   footer: "Made at an hour we agreed never to mention again.",
 } as const;
 
-/** WhatsApp deep link. The message is encoded here — never hand-encode it. */
-export const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(
-  invite.accepted.share.message,
-)}`;
+export type ShareDetails = {
+  drink: string;
+  starting: string;
+  dress: string;
+  exit: string;
+};
+
+/**
+ * WhatsApp deep link, built from tonight's picks. Every line is encoded here —
+ * never hand-encode the message.
+ */
+export function buildWhatsappUrl({
+  drink,
+  starting,
+  dress,
+  exit,
+}: ShareDetails) {
+  const { share, terms } = invite.accepted;
+  const labelFor = (id: TermGroupId) =>
+    terms.groups.find((group) => group.id === id)?.label ?? id;
+
+  const lines = [
+    share.message,
+    `Drink: ${drink}`,
+    `${labelFor("starting")}: ${starting}`,
+    `${labelFor("dress")}: ${dress}`,
+    `${labelFor("exit")}: ${exit}`,
+    `${terms.durationLabel}: ${terms.durationValue}`,
+  ];
+
+  return `https://wa.me/?text=${encodeURIComponent(lines.join("\n"))}`;
+}

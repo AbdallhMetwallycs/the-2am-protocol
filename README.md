@@ -14,9 +14,9 @@ The experience runs in three stages, each on its own screen with a short transit
 
 **1 · The opening.** The invitation card, the question — "Tea or coffee? You know the drill. ☕😏" — and one button: *LET'S BREAK OUR SLEEP SCHEDULE*.
 
-**2 · The night.** Scroll through the five-step plan, a simulated call-duration counter that keeps ticking while the tab is open (01:23:45 / 02:47:19 / 04:12:38 are the "previous confirmed incidents"), the *OK, LAST FIVE MINUTES* button that counts every time you press it, the six "things we both know, but pretend we don't" — each one toggles official — and a **SHOW ME MORE TROUBLE 💋** button that admits nine more things before it runs out. Then the invitation card itself: activity, start time, duration, location, dress code, exit strategy.
+**2 · The night.** Scroll through the five-step plan, the honest duration estimate — ∞, *give or take a sunrise* — the six "things we both know, but pretend we don't" (each one toggles official), and a **SHOW ME MORE TROUBLE 💋** button that admits nine more things before it runs out. Then the invitation card itself: activity, start time, duration, location, dress code, exit strategy.
 
-**3 · Approved.** The Insomnia Committee RSVPs, the celebration fires, a cup fills with tea or coffee (tap it to switch sides of the argument), and the WhatsApp button opens a share sheet with the acceptance message already typed.
+**3 · Approved.** The Insomnia Committee RSVPs, the celebration fires, and a cup fills with tea or coffee (tap it to switch sides of the argument). Below that, the same six detail rows become a picker: choose when it starts, what you're wearing, and how it ends. The WhatsApp button composes the message live from the drink and those picks, so the share sheet already contains the whole plan — only *send* is left.
 
 Throughout: a drifting starfield, floating cups / moons / stars / kisses you can tap for a surprise line, and an ambient night pad that only ever starts when you press the sound control — nothing autoplays.
 
@@ -52,20 +52,20 @@ src/
   globals.css              ← design tokens, component styles, keyframes
   App.tsx                  ← stage machine: opening → night → accepted
   main.tsx                 React root
-  components/              Opening, Night, Accepted, PlanSequence, CallViz,
-                           KnowDont, LastFiveMinutes, FinalInvite, CupFill,
-                           Starfield, Backdrop, Burst, FloatingEmojis,
-                           MoonMark, MoonSeal, SoundControl, SurpriseToast
+  components/              Opening, Night, Accepted, PlanSequence, TermsPicker,
+                           KnowDont, FinalInvite, CupFill, Starfield, Backdrop,
+                           Burst, FloatingEmojis, MoonMark, MoonSeal,
+                           SoundControl, SurpriseToast
   hooks/                   useReducedMotion, useRevealOnScroll,
-                           useCallTimer, useNightAmbience
+                           useNightAmbience
   scripts/                 build / node-version helpers
 ```
 
 ## Editing it
 
-**Words.** Open [`src/content.ts`](src/content.ts). Headings, the question, the five plan steps, the call archive, the know-don't list and its extras, the invitation rows, the acceptance copy, the WhatsApp message, the surprise lines, and the footer are all there. Change the text, save, and the site updates — nothing else needs touching. The types are declared, so a missing or misspelled field fails the typecheck instead of shipping blank.
+**Words.** Open [`src/content.ts`](src/content.ts). Headings, the question, the five plan steps, the duration card, the know-don't list and its extras, the invitation rows, the acceptance copy, the picker groups, the surprise lines, and the footer are all there. Change the text, save, and the site updates — nothing else needs touching. The types are declared, so a missing or misspelled field fails the typecheck instead of shipping blank. Picker options are lists: add an item and its chip appears, remove the last one and the row loses its choices, all without touching a component.
 
-**WhatsApp share.** `invite.accepted.share.message` is the only place to edit it. The URL is built with `encodeURIComponent`, so emoji and punctuation are encoded correctly — do not hand-encode it.
+**WhatsApp share.** `buildWhatsappUrl` in [`src/content.ts`](src/content.ts) assembles the message from `invite.accepted.share.message` plus the chosen drink and the three picker values, then encodes the whole thing with `encodeURIComponent` — emoji and line breaks survive intact. Do not hand-encode it.
 
 **Look and feel.** Colour, type, and motion tokens are CSS custom properties at the top of [`src/globals.css`](src/globals.css):
 
@@ -97,9 +97,9 @@ There are no environment variables and no secrets in this project — nothing to
 
 ## Notes on behaviour
 
-- **The call timer is a joke, not telemetry.** It counts locally in the browser, is capped at `05:59:59`, pauses when the tab is hidden, and the page states plainly that no call is placed and nothing about the visitor is tracked.
+- **The duration is a joke, not a promise.** "∞" is static text. No call is placed, no timer runs, and nothing about the visitor is tracked; the picks only ever leave the page through the WhatsApp link the visitor chooses to open.
 - **Sound never autoplays.** The ambient pad is created inside the click handler of the sound control, so browsers' autoplay rules are respected and the toggle is silent until it is asked to be.
-- **Reduced motion is honoured.** With `prefers-reduced-motion: reduce`, the starfield paints once and stops, the call counter freezes, transitions collapse, decorations stay reachable instead of being hidden, and the celebration and ambient audio do not fire.
+- **Reduced motion is honoured.** With `prefers-reduced-motion: reduce`, the starfield paints once and stops, transitions collapse, decorations stay reachable instead of being hidden, and the celebration and ambient audio do not fire.
 - **No third-party requests** beyond the Google Fonts stylesheet and font files. No analytics, no cookies, no API calls.
 
 ## License

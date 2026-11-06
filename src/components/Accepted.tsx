@@ -1,10 +1,18 @@
 import { useState } from "react";
 import type { CSSProperties } from "react";
-import { invite, whatsappShareUrl } from "../content";
+import { buildWhatsappUrl, invite } from "../content";
+import type { TermGroupId } from "../content";
 import { CupFill } from "./CupFill";
 import type { Drink } from "./CupFill";
+import { TermsPicker } from "./TermsPicker";
 
 const delay = (value: string) => ({ "--delay": value } as CSSProperties);
+
+/** Every row starts on its first option, which matches the invitation card. */
+const defaultTerms = () =>
+  Object.fromEntries(
+    invite.accepted.terms.groups.map((group) => [group.id, group.options[0]]),
+  ) as Record<TermGroupId, string>;
 
 function WhatsAppGlyph() {
   return (
@@ -26,11 +34,23 @@ export function Accepted({ onReplay }: AcceptedProps) {
   const copy = invite.accepted;
   const [drink, setDrink] = useState<Drink>("tea");
   const [pour, setPour] = useState(0);
+  const [terms, setTerms] = useState<Record<TermGroupId, string>>(defaultTerms);
 
   const switchDrink = () => {
     setDrink((current) => (current === "tea" ? "coffee" : "tea"));
     setPour((current) => current + 1);
   };
+
+  const pickTerm = (id: TermGroupId, value: string) => {
+    setTerms((current) => ({ ...current, [id]: value }));
+  };
+
+  const shareUrl = buildWhatsappUrl({
+    drink: copy.cup.inMessage[drink],
+    starting: terms.starting,
+    dress: terms.dress,
+    exit: terms.exit,
+  });
 
   return (
     <section className="screen accepted" aria-labelledby="accepted-title">
@@ -86,15 +106,23 @@ export function Accepted({ onReplay }: AcceptedProps) {
           </p>
         </div>
 
-        <div className="ps-block reveal" style={delay("380ms")}>
+        <div className="terms-block reveal" style={delay("360ms")}>
+          <TermsPicker
+            drinkLabel={copy.cup[drink]}
+            values={terms}
+            onChange={pickTerm}
+          />
+        </div>
+
+        <div className="ps-block reveal" style={delay("420ms")}>
           <p className="ps-title">{copy.psTitle}</p>
           <p className="ps-body">{copy.psBody}</p>
         </div>
 
-        <div className="share-block reveal" style={delay("460ms")}>
+        <div className="share-block reveal" style={delay("500ms")}>
           <a
             className="wa-button"
-            href={whatsappShareUrl}
+            href={shareUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
