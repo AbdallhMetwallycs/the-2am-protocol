@@ -15,7 +15,6 @@
   --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia,
     serif;
   --font-sans: "Manrope", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --font-arabic: "Cairo", "Segoe UI", Tahoma, system-ui, sans-serif;
   --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
     sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -524,7 +523,7 @@ a {
   color: var(--champagne);
 }
 
-/* The hero question, Arabic script, right-to-left. */
+/* The hero question. */
 
 .question-card {
   position: relative;
@@ -568,20 +567,18 @@ a {
 
 .question {
   margin: 0;
-  font-family: var(--font-arabic);
-  font-size: clamp(2.5rem, 8.6vw, 3.9rem);
-  font-weight: 700;
-  line-height: 1.24;
-  letter-spacing: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 6vw, 2.9rem);
+  font-weight: 420;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
   color: var(--cream);
   text-shadow: 0 0 44px rgba(217, 120, 145, 0.34);
 }
 
 .question-emoji {
   display: inline-block;
-  /* Keep the pair in its written order inside the right-to-left line. */
-  direction: ltr;
-  unicode-bidi: isolate;
   margin-inline-start: 0.22em;
   font-family: var(--font-emoji);
   font-size: 0.62em;

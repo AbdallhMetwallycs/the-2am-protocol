@@ -46,7 +46,7 @@ export function Opening({ leaving, onBegin }: OpeningProps) {
 
         <div className="question-card reveal" style={delay("360ms")}>
           <p className="question-label">{copy.questionLabel}</p>
-          <p className="question" lang="ar" dir="rtl">
+          <p className="question">
             {copy.question}
             <span className="question-emoji" aria-hidden="true">
               {copy.questionEmoji}

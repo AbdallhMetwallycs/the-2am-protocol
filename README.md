@@ -2,7 +2,7 @@
 
 One cup of tea. One endless conversation. Zero intentions of sleeping.
 
-A standalone, mobile-first invitation website for the 2 AM "هنشاي؟" ritual — built with React, TypeScript, and Vite, hosted on GitHub Pages. No sign-in, no database, no tracking: it is a single static site that anyone can open on a phone and answer with one tap.
+A standalone, mobile-first invitation website for the 2 AM tea-and-coffee ritual — built with React, TypeScript, and Vite, hosted on GitHub Pages. No sign-in, no database, no tracking: it is a single static site that anyone can open on a phone and answer with one tap.
 
 **Live site:** https://abdallhmetwallycs.github.io/the-2am-protocol/
 
@@ -12,7 +12,7 @@ A standalone, mobile-first invitation website for the 2 AM "هنشاي؟" ritual
 
 The experience runs in three stages, each on its own screen with a short transition between them.
 
-**1 · The opening.** The invitation card, the question — "هنشاي؟ ☕😏" — and one button: *LET'S BREAK OUR SLEEP SCHEDULE*.
+**1 · The opening.** The invitation card, the question — "Tea or coffee? You know the drill. ☕😏" — and one button: *LET'S BREAK OUR SLEEP SCHEDULE*.
 
 **2 · The night.** Scroll through the five-step plan, a simulated call-duration counter that keeps ticking while the tab is open (01:23:45 / 02:47:19 / 04:12:38 are the "previous confirmed incidents"), the *OK, LAST FIVE MINUTES* button that counts every time you press it, the six "things we both know, but pretend we don't" — each one toggles official — and a **SHOW ME MORE TROUBLE 💋** button that admits nine more things before it runs out. Then the invitation card itself: activity, start time, duration, location, dress code, exit strategy.
 
@@ -79,7 +79,7 @@ src/
 | `--coffee` | warm neutrals | `#593B32` |
 | `--ease` | shared easing curve | `cubic-bezier(0.22, 1, 0.36, 1)` |
 
-**Fonts and social preview.** `index.html` carries the Google Fonts `<link>` (Fraunces for display, Manrope for body, Cairo for the Arabic line) plus the `<title>`, theme colour, and Open Graph / Twitter tags used when the link is shared.
+**Fonts and social preview.** `index.html` carries the Google Fonts `<link>` (Fraunces for display, Manrope for body) plus the `<title>`, theme colour, and Open Graph / Twitter tags used when the link is shared.
 
 ## Deployment
 

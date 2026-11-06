@@ -2,8 +2,8 @@
  * Every word a visitor sees lives in this file.
  *
  * Change a string here, run `npm run build`, republish — nothing in the
- * components needs touching. Arabic-script strings are rendered right-to-left
- * by the component that reads them, so keep them as plain text.
+ * components needs touching. Copy is English only; emoji do the work that
+ * italics and exclamation marks cannot.
  */
 
 export type InvitationRow = {
@@ -41,8 +41,7 @@ export const invite = {
     headingEmoji: "🌙",
     subtitle: "I have a very serious question.",
     questionLabel: "The question",
-    /** Arabic script — rendered right-to-left. */
-    question: "هنشاي؟",
+    question: "Tea or coffee? You know the drill.",
     questionEmoji: "☕😏",
     supporting:
       "Because apparently sleeping at a reasonable hour is no longer part of our lifestyle.",
@@ -117,7 +116,7 @@ export const invite = {
       replies: [
         "Five minutes. This time for real. 🥱",
         "That was twelve minutes ago. Keep going. 😏",
-        "El call lazem y2fel. It will not close. 😂",
+        "The call is supposed to end now. It absolutely will not. 😂",
         "Five minutes, times four. New personal record. ✨",
         "At this point the phone needs a charger and an apology. 🔌",
       ],
@@ -137,7 +136,7 @@ export const invite = {
       "We said five minutes. We both knew that was a lie.",
       "Your voice is becoming a serious sleep schedule problem.",
       "I was supposed to sleep three hours ago. Anyway...",
-      "Mesh 3ayzeen ne2fel el call wala eh? 😂",
+      "Are we seriously thinking about ending this call? 😂",
       "The tea gets cold, but the conversation doesn't.",
       "Somehow, even silence on this call isn't awkward.",
     ],
@@ -154,7 +153,7 @@ export const invite = {
       "One more story. Then another. Then that one from 2019. ✨",
       "Coffee number three at 3 AM is a personality trait, not a choice. ☕",
       "We're not tired. We're just horizontal, with our phones. 🥱",
-      "Ana bel2 al call y2fel, w betkellem laan enta betsama2. 😏",
+      "I keep saying we should hang up. You keep talking because I'm listening. 😏",
       "Tomorrow's us already knows tonight's us won't listen. 💋",
       "The group chat is jealous of this call. ❤️‍🔥",
       "You laugh at the worst possible hour, on purpose. 😂",
